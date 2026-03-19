@@ -11,12 +11,20 @@ struct bt_node{
 
 };
 
-//Initializes the binary tree.
-void init_bt(bt_node** proot, int data);
+//Creates a 'root' an its sons.
+bt_node* create_root(int data, bt_node* left, bt_node* right);
 
 //Creates a leaf containing the specifed data.
 bt_node* create_leaf(int data);
 
-//delete_bt
+//Prints all of the nodes, starting from bottom left leaves.
+void print_tree(bt_node* proot);
+
+//Prints a binary search tree sorted.
+void print_sorted(bt_node* proot);
+
+//Deletes a tree.
+bt_node* delete_tree(bt_node* proot);
+
 
 #endif
