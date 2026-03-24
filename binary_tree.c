@@ -36,6 +36,40 @@ bt_node* create_leaf(int data){
     return pleaf;
 }
 
+bt_node* insert_node(bt_node* proot ,int data){
+    
+    //While root exists, tries to find the leaf recursively.
+    if(proot != NULL){
+        
+        if(proot->data > data){
+            proot->left = insert_node(proot->left, data);
+        }
+        else{
+            proot->right = insert_node(proot->right, data);
+        }
+        //Return the new tree.
+        return proot;
+    }
+    else{
+        
+        //Returns the new leaf inserted.
+        bt_node* pnew = create_leaf(data);
+        return pnew;
+    }
+
+}
+
+//Finds the maximum height recursively.
+int get_tree_height(bt_node* proot){ 
+    
+    //Stop Condition
+    if(proot == NULL)
+        return 0;
+    
+    //Haskell go brrrr
+    return 1 + MAX(get_tree_height(proot->left), get_tree_height(proot->right));
+}
+
 //Prints all of the nodes, starting from bottom left leaves.
 void print_tree(bt_node* proot){
     
