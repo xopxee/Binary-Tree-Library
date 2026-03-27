@@ -41,12 +41,16 @@ bt_node* insert_node(bt_node* proot ,int data){
     //While root exists, tries to find the leaf recursively.
     if(proot != NULL){
         
-        if(proot->data > data){
+        if(data < proot->data){
             proot->left = insert_node(proot->left, data);
         }
         else{
             proot->right = insert_node(proot->right, data);
         }
+
+        //Balances if needed.
+        proot = balance(proot);
+
         //Return the new tree.
         return proot;
     }
@@ -70,6 +74,64 @@ int get_tree_height(bt_node* proot){
     return 1 + MAX(get_tree_height(proot->left), get_tree_height(proot->right));
 }
 
+int get_balance_factor(bt_node* proot){
+    return get_tree_height(proot->left) - get_tree_height(proot->right); 
+}
+
+bool is_balanced(bt_node* proot){
+   return ABS(get_balance_factor(proot)) < 2 ? true : false; 
+}
+
+bt_node* rr(bt_node* proot){
+    
+    bt_node* aux = proot->left;
+    proot->left = aux->right;
+    aux->right = proot;
+    
+    //aux is returned as the new root now.
+    return aux;
+}
+
+bt_node* ll(bt_node* proot){
+    
+    bt_node* aux = proot->right;
+    proot->right = aux->left;
+    aux->left = proot;
+    
+    //aux is returned as the new root now.
+    return aux;
+}
+
+bt_node* balance(bt_node* proot){
+ 
+    if(is_balanced(proot))
+        return proot;
+        
+    //if the tree is heavier on the left side.
+    if(get_balance_factor(proot) > 0){
+      
+        //if signs don't match, first you make it do.
+        if(get_balance_factor(proot->left) < 0){
+            proot->left = ll(proot->left);
+        }
+
+        //rotates the tree right.
+        proot = rr(proot);
+
+    }
+    else{   //heavier on the right side (< 0).
+
+        //if signs don't match, first you make it do.
+        if(get_balance_factor(proot->right) > 0){
+            proot->right = rr(proot->right);
+        }
+
+        //rotates the tree left.
+        proot = ll(proot);
+    }
+
+}
+
 //Prints all of the nodes, starting from bottom left leaves.
 void print_tree(bt_node* proot){
     
@@ -85,9 +147,9 @@ void print_tree(bt_node* proot){
 void print_sorted(bt_node* proot){
 
     if(proot != NULL){
-        print_tree(proot->left);
+        print_sorted(proot->left);
         printf("%d ", proot->data);
-        print_tree(proot->right);
+        print_sorted(proot->right);
     }
 }
 
