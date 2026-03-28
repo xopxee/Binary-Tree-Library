@@ -74,8 +74,40 @@ int get_tree_height(bt_node* proot){
     return 1 + MAX(get_tree_height(proot->left), get_tree_height(proot->right));
 }
 
+int get_num_of_leaves(bt_node* proot){
+
+    if(proot == NULL)
+        return 0;
+
+    return 1 + get_num_of_leaves(proot->left) + get_num_of_leaves(proot->right);
+}
+
 int get_balance_factor(bt_node* proot){
+    
+    if(proot == NULL)
+        return 0;
+
     return get_tree_height(proot->left) - get_tree_height(proot->right); 
+}
+
+bool is_identical(bt_node* pa, bt_node* pb){
+    
+    //If they both reached the end, they're equal so far.
+    if(pa == NULL && pb == NULL){
+        return true;
+    }
+
+    //Avoids seg fault.
+    if(pa == NULL || pb == NULL){
+        return false;
+    }
+    
+    //If they are equal, checks recursively if their sons are equal too.
+    if(pa->data == pb->data){
+        return is_identical(pa->left, pb->left)
+            && is_identical(pa->right, pb->right);
+    }
+    return false;
 }
 
 bool is_balanced(bt_node* proot){
@@ -130,6 +162,18 @@ bt_node* balance(bt_node* proot){
         proot = ll(proot);
     }
 
+}
+
+bt_node* clone_tree(bt_node* proot){
+    
+    if(proot == NULL)
+        return NULL;
+    
+    //Clones root and all subtrees recursively.
+    bt_node* clone;
+    clone = create_root(proot->data, clone_tree(proot->left), clone_tree(proot->right));
+    
+    return clone;
 }
 
 //Prints all of the nodes, starting from bottom left leaves.
