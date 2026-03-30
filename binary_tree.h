@@ -24,12 +24,15 @@ bt_node* create_leaf(int data);
 
 //Inserts a node in a Binary Search Tree.
 bt_node* insert_node(bt_node* proot, int data);
-  
+
+//Searches and deletes a node.
+bt_node* remove_node(bt_node* proot, int data);
+
 //Finds the height of the Tree.
-int get_tree_height(bt_node* proot);
+unsigned int get_tree_height(bt_node* proot);
 
 //Recursively sums the number of leaves of each sub-tree.
-int get_num_of_leaves(bt_node* proot);
+unsigned int get_num_of_leaves(bt_node* proot);
 
 //Returns balance factor of the especific node, for balancement purposes.
 int get_balance_factor(bt_node* proot);
@@ -39,6 +42,9 @@ bool is_identical(bt_node* pa, bt_node* pb);
 
 //Checks if balance_factor absolute value is less than 2.
 bool is_balanced(bt_node* proot);
+
+//Checks if a node doesn't have any sons.
+bool is_leaf(bt_node* proot);
 
 //Rotate right.
 bt_node* rr(bt_node* proot);
@@ -51,6 +57,9 @@ bt_node* balance(bt_node* proot);
 
 //Duplicates a tree and return its root.
 bt_node* clone_tree(bt_node* proot);
+
+//Finds the right-most leaf and returns it.
+bt_node* largest(bt_node* proot);
 
 //Prints all of the nodes, starting from bottom left leaves.
 void print_tree(bt_node* proot);

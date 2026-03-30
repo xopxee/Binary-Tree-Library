@@ -23,6 +23,8 @@ int main(){
 
     printf("%s\n", is_balanced(tree) ? "balanced" : "NOT balanced");
     printf("%s\n", is_identical(tree, arv) ? "they are identical" : "they are NOT identical");
+    printf("%s\n", is_leaf(tree) ? "Yes" : "No" );
+    printf("%d\n", largest(tree)->data);
 
     tree = delete_tree(tree);
     arv = delete_tree(arv);

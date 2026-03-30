@@ -62,9 +62,42 @@ bt_node* insert_node(bt_node* proot ,int data){
     }
 
 }
+/*prototype
+bt_node* remove_node(bt_node* proot, int data){
+    
+    if(proot == NULL)
+        return NULL;
 
+    if(data == proot->data){
+
+        if(is_leaf(proot)){
+            free(proot);
+            return NULL;
+        }
+
+        if(proot->left != NULL){
+            
+            bt_node* deletion_target = largest(proot->left);
+            
+            proot->data = deletion_target->data;
+            proot->left = deletion_target->left;
+        }
+
+
+    }
+
+    if(data < proot->data){
+        proot->left = remove_node(proot->left, data);
+    }
+    else{
+        proot->right = remove_node(proot->right, data);
+    }
+
+    return proot;
+}
+*/
 //Finds the maximum height recursively.
-int get_tree_height(bt_node* proot){ 
+unsigned int get_tree_height(bt_node* proot){ 
     
     //Stop Condition
     if(proot == NULL)
@@ -74,7 +107,7 @@ int get_tree_height(bt_node* proot){
     return 1 + MAX(get_tree_height(proot->left), get_tree_height(proot->right));
 }
 
-int get_num_of_leaves(bt_node* proot){
+unsigned int get_num_of_leaves(bt_node* proot){
 
     if(proot == NULL)
         return 0;
@@ -112,6 +145,16 @@ bool is_identical(bt_node* pa, bt_node* pb){
 
 bool is_balanced(bt_node* proot){
    return ABS(get_balance_factor(proot)) < 2 ? true : false; 
+}
+
+//nested ternary operator :0
+bool is_leaf(bt_node* proot){
+    
+    if(proot == NULL){
+        return false;
+    }
+
+    return proot->left == NULL ? (proot->right == NULL ? true : false) : false;
 }
 
 bt_node* rr(bt_node* proot){
@@ -174,6 +217,19 @@ bt_node* clone_tree(bt_node* proot){
     clone = create_root(proot->data, clone_tree(proot->left), clone_tree(proot->right));
     
     return clone;
+}
+
+bt_node* largest(bt_node* proot){
+    
+    if(proot == NULL)
+        return NULL;
+
+    bt_node* target = proot;
+
+    if(proot->right != NULL){
+        target = largest(proot->right);
+    }
+    return target;
 }
 
 //Prints all of the nodes, starting from bottom left leaves.
