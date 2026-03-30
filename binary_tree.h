@@ -16,7 +16,7 @@ struct bt_node{
 
 };
 
-//Creates a 'root' and its sons.
+//Creates a 'root' and its children.
 bt_node* create_root(int data, bt_node* left, bt_node* right);
 
 //Creates a leaf containing the specifed data.
@@ -43,7 +43,7 @@ bool is_identical(bt_node* pa, bt_node* pb);
 //Checks if balance_factor absolute value is less than 2.
 bool is_balanced(bt_node* proot);
 
-//Checks if a node doesn't have any sons.
+//Checks if a node doesn't have any children.
 bool is_leaf(bt_node* proot);
 
 //Rotate right.

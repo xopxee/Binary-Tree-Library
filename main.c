@@ -15,6 +15,13 @@ int main(){
 
     print_sorted(tree);
     printf("\n");
+    
+    for(int i = 2; i < 16; i += 2){
+        tree = remove_node(tree, i);
+    }
+
+    print_sorted(tree);
+    printf("\n");
     print_sorted(arv); 
 
     printf("\n%d\n", get_tree_height(tree));        

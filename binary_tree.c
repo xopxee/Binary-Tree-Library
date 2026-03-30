@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "binary_tree.h"
 
-//Creates a 'root' an its sons. 
+//Creates a 'root' an its children. 
 bt_node* create_root(int data, bt_node* left, bt_node* right){
     bt_node* proot = (bt_node*)malloc(sizeof(bt_node));
     
@@ -62,40 +62,53 @@ bt_node* insert_node(bt_node* proot ,int data){
     }
 
 }
-/*prototype
+
 bt_node* remove_node(bt_node* proot, int data){
     
     if(proot == NULL)
         return NULL;
-
+    
+    //Found node to delete.
     if(data == proot->data){
-
-        if(is_leaf(proot)){
+        
+        //If it has one or zero children.
+        if(proot->right == NULL){
+            bt_node* aux = proot->left;
+            
+            //Delete and return its child.
+            free(proot); 
+            proot = aux;
+        }
+        else if(proot->left == NULL){
+            bt_node* aux = proot->right;
+            
+            //Delete and return its child.
             free(proot);
-            return NULL;
+            proot = aux;
         }
+        else{   //If it has two children.
+            
+            //Finds the largest node on the left subtree.
+            bt_node* target = largest(proot->left);
+            
+            //Copies the data from it to the root node.
+            proot->data = target->data;
 
-        if(proot->left != NULL){
-            
-            bt_node* deletion_target = largest(proot->left);
-            
-            proot->data = deletion_target->data;
-            proot->left = deletion_target->left;
+            //Deletes it (Since the node to delete is a leaf, it's easier now).
+            proot->left = remove_node(proot->left, target->data);
         }
-
-
-    }
-
-    if(data < proot->data){
+    }   //Finds recursively the desired node based on its value.
+    else if(data < proot->data){
         proot->left = remove_node(proot->left, data);
     }
     else{
         proot->right = remove_node(proot->right, data);
     }
-
-    return proot;
+    
+    //Rebalances it if needed.
+    return balance(proot);
 }
-*/
+
 //Finds the maximum height recursively.
 unsigned int get_tree_height(bt_node* proot){ 
     
@@ -135,7 +148,7 @@ bool is_identical(bt_node* pa, bt_node* pb){
         return false;
     }
     
-    //If they are equal, checks recursively if their sons are equal too.
+    //If they are equal, checks recursively if their children are equal too.
     if(pa->data == pb->data){
         return is_identical(pa->left, pb->left)
             && is_identical(pa->right, pb->right);
